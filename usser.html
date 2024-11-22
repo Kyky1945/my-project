@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Pengguna</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            width: 80%;
+            margin: 50px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Manajemen Pengguna</h1>
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>UID</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data pengguna akan dimasukkan di sini -->
+            </tbody>
+        </table>
+        <button class="button" onclick="logout()">Keluar</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+
+    <script type="module">
+        // Konfigurasi Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAG4_TG5tZJjBBR0IElQ8O0BLphisJAQXw",
+            authDomain: "dataproject-4b144.firebaseapp.com",
+            projectId: "dataproject-4b144",
+            storageBucket: "dataproject-4b144.appspot.com",
+            messagingSenderId: "665233163596",
+            appId: "1:665233163596:web:bb5c1c47efb9213709fbe9",
+            measurementId: "G-3B25LST0LG"
+        };
+
+
+        // Inisialisasi Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Fungsi untuk menampilkan daftar pengguna dalam tabel
+        function getUsers() {
+            db.collection('expenses').get().then((querySnapshot) => {
+                const userTable = document.getElementById('userTable').getElementsByTagName('tbody')[0];
+                userTable.innerHTML = '';  // Menghapus isi tabel yang ada
+
+                querySnapshot.forEach((doc) => {
+                    const userData = doc.data();
+                    const row = userTable.insertRow();
+                    row.innerHTML = `
+                        <td>${userData.email}</td>
+                        <td>${doc.id}</td>
+                        <td><button class="button" onclick="deleteUser('${doc.id}')">Hapus</button></td>
+                    `;
+                });
+            });
+        }
+
+        // Fungsi untuk menghapus akun pengguna
+        function deleteUser(userId) {
+            db.collection('expenses').doc(userId).delete().then(() => {
+                alert('Akun berhasil dihapus');
+                getUsers();  // Memperbarui daftar pengguna
+            }).catch((error) => {
+                console.error('Error menghapus akun: ', error);
+            });
+        }
+
+        // Logout pengguna
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = 'login.html'; // Arahkan kembali ke halaman login
+            }).catch((error) => {
+                console.error('Error saat logout: ', error);
+            });
+        }
+
+        // Menampilkan daftar pengguna saat halaman dimuat
+        getUsers();
+    </script>
+</body>
+
+</html>

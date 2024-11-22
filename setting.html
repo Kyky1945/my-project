@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            width: 300px;
+            margin: 50px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .settings-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #555;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.3s ease;
+        }
+
+        .setting-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .icon {
+            margin-right: 10px;
+        }
+
+        #notification-status {
+            margin-left: auto;
+            font-weight: bold;
+        }
+
+        /* Styling untuk tombol back */
+        .back-button {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            padding: 10px;
+            cursor: pointer;
+            color: #555;
+            background-color: #f4f4f4;
+            border: none;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Tombol Back -->
+        <button class="back-button" onclick="goBack()">
+            &#8592; Kembali
+        </button>
+
+        <h1>Pengaturan</h1>
+        <ul class="settings-list">
+            <li class="setting-item" onclick="navigateTo('users')">
+                <i class="icon">&#128101;</i> Manajemen Pengguna
+            </li>
+            <li class="setting-item" onclick="toggleNotification()">
+                <i class="icon">&#128276;</i> Notifikasi
+                <span id="notification-status">Aktif</span>
+            </li>
+            <li class="setting-item" onclick="navigateTo('security')">
+                <i class="icon">&#128274;</i> Keamanan & Privasi
+            </li>
+            <li class="setting-item" onclick="navigateTo('help')">
+                <i class="icon">&#128712;</i> Bantuan
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        // Fungsi untuk mengarahkan ke halaman tertentu
+        function navigateTo(page) {
+            switch (page) {
+                case 'users':
+                    // Mengarahkan ke halaman manajemen pengguna
+                    alert('Navigating to Manajemen Pengguna page');
+                    window.location.href = 'usser.html';  // Ganti dengan halaman manajemen pengguna
+                    break;
+                case 'security':
+                    // Mengarahkan ke halaman keamanan dan privasi
+                    alert('Navigating to Keamanan & Privasi page');
+                    window.location.href = 'security.html';  // Ganti dengan halaman keamanan
+                    break;
+                case 'help':
+                    // Mengarahkan ke halaman bantuan
+                    alert('Navigating to Bantuan page');
+                    window.location.href = 'help.html';  // Ganti dengan halaman bantuan
+                    break;
+                default:
+                    alert('Page not found!');
+                    break;
+            }
+        }
+
+        // Fungsi untuk toggle notifikasi
+        function toggleNotification() {
+            const notificationStatus = document.getElementById('notification-status');
+            if (notificationStatus.innerText === 'Aktif') {
+                notificationStatus.innerText = 'Nonaktif';
+                alert('Notifikasi dimatikan');
+            } else {
+                notificationStatus.innerText = 'Aktif';
+                alert('Notifikasi diaktifkan');
+            }
+        }
+
+        // Fungsi untuk kembali ke halaman sebelumnya
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+
+</html>
